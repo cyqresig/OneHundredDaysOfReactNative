@@ -22,6 +22,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		9F3B930A1CE5773E00EBA16B /* 100-days-rn.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F3B93091CE5773E00EBA16B /* 100-days-rn.png */; };
 		9F3C500A1CE4CBE5006637FD /* icon100.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F3C4FFB1CE4CBE5006637FD /* icon100.png */; };
 		9F3C500B1CE4CBE5006637FD /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F3C4FFC1CE4CBE5006637FD /* icon114.png */; };
 		9F3C500C1CE4CBE5006637FD /* icon120.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F3C4FFD1CE4CBE5006637FD /* icon120.png */; };
@@ -148,6 +149,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		9F3B93091CE5773E00EBA16B /* 100-days-rn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "100-days-rn.png"; sourceTree = "<group>"; };
 		9F3C4FFB1CE4CBE5006637FD /* icon100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon100.png; sourceTree = "<group>"; };
 		9F3C4FFC1CE4CBE5006637FD /* icon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114.png; sourceTree = "<group>"; };
 		9F3C4FFD1CE4CBE5006637FD /* icon120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120.png; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 		9F3C4FFA1CE4CBE5006637FD /* icon */ = {
 			isa = PBXGroup;
 			children = (
+				9F3B93091CE5773E00EBA16B /* 100-days-rn.png */,
 				9F3C4FFB1CE4CBE5006637FD /* icon100.png */,
 				9F3C4FFC1CE4CBE5006637FD /* icon114.png */,
 				9F3C4FFD1CE4CBE5006637FD /* icon120.png */,
@@ -591,6 +594,7 @@
 				9F3C500F1CE4CBE5006637FD /* icon180.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				9F3C50141CE4CBE5006637FD /* icon58.png in Resources */,
+				9F3B930A1CE5773E00EBA16B /* 100-days-rn.png in Resources */,
 				9F3C50151CE4CBE5006637FD /* icon72.png in Resources */,
 				9F3C50231CE4CC11006637FD /* Default-Landscape-736h@3x.png in Resources */,
 				9F3C50251CE4CC11006637FD /* Default@2x.png in Resources */,

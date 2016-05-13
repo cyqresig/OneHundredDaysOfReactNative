@@ -1,7 +1,7 @@
 {
   "name": "OneHundredDaysOfReactNative",
   "version": "0.0.1",
-  "description": "One hundred days of react-ative projects",
+  "description": "100 days of React Native examples/demos.",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
@@ -10,6 +10,14 @@
     "react-native": "^0.25.1",
     "react-native-swiper": "^1.4.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyqresig/OneHundredDaysOfReactNative.git"
+  },
+  "keywords": [
+    "react",
+    "react-native"
+  ],
   "author": "HISAME SHIZUMARU",
   "license": "MIT"
 }

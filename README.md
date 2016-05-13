@@ -8,3 +8,11 @@ This project is inspired by
 100 Days of Swift (http://samvlu.com/) &
 
 30DaysofSwift (https://github.com/allenwong/30DaysofSwift)
+
+## Day1
+An image swiper app
+
+Usually used before the index view show
+
+![day1](http://www.vanadis.cn/screenshots/react-native/ios/day1.gif)
+
