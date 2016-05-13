@@ -1,0 +1,15 @@
+{
+  "name": "OneHundredDaysOfReactNative",
+  "version": "0.0.1",
+  "description": "One hundred days of react-ative projects",
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "react": "^0.14.8",
+    "react-native": "^0.25.1",
+    "react-native-swiper": "^1.4.3"
+  },
+  "author": "HISAME SHIZUMARU",
+  "license": "MIT"
+}
