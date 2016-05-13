@@ -1,6 +1,9 @@
-
-import Swiper from 'react-native-swiper'
-
+/**
+ * @fileOverview 第一次进入app, 全屏app特性广告轮播
+ * @author HISAME SHIZUMARU
+ * @version
+ * Created on 16/5/13.
+ */
 import React, {
   Component,
   StyleSheet,
@@ -10,7 +13,9 @@ import React, {
   Dimensions,
   PixelRatio,
 } from 'react-native'
-
+import Swiper from 'react-native-swiper'
+import Dimension from '../common/dimension'
+import Advertisement from './advertisement'
 import feature1 from './images/feature1.jpg'
 import feature2 from './images/feature2.jpg'
 import feature3 from './images/feature3.jpg'
@@ -36,7 +41,10 @@ export default class Features extends Component {
   }
 
   _handleToIndex = () => {
-    alert('立即体验!')
+    this.props.navigator.replace({
+      component: Advertisement,
+      navigationBarHidden: true,
+    })
   }
 
 }
@@ -46,7 +54,6 @@ const activeDot = (
 )
 
 const {width: deviceWidth, height: deviceHeight} = Dimensions.get('window')
-const minBorderWidth = 0.5 * PixelRatio.get()
 
 const styles = StyleSheet.create({
 
@@ -66,13 +73,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     color: '#fff',
     fontSize: 16,
-    borderWidth: minBorderWidth,
+    borderWidth: Dimension.pixel,
     borderColor: '#fff',
-    paddingLeft: 6,
-    paddingRight: 4,
-    paddingTop: 6,
-    paddingBottom: 4,
     borderRadius: 3,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   }
 
 })
