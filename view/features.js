@@ -44,6 +44,9 @@ export default class Features extends Component {
     this.props.navigator.replace({
       component: Advertisement,
       navigationBarHidden: true,
+      passProps: {
+        countDownSeconds: 3,
+      }
     })
   }
 
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     color: '#fff',
     fontSize: 16,
-    borderWidth: Dimension.pixel,
+    borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#fff',
     borderRadius: 3,
     paddingHorizontal: 10,

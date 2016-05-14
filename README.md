@@ -19,7 +19,7 @@ Usually used before the index view show
 ## Day2
 An entrance animation app
 
-Usually used for advertisement
+Usually used for advertisement, also include countdown cancel button
 
 ![day2](http://www.vanadis.cn/screenshots/react-native/ios/day2.gif)
 

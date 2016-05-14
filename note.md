@@ -120,7 +120,10 @@
 ## CSS
 * 支持rgba配色, 如backgroundColor: 'rgba(0, 0, 100, 0.25)'
 * 支持opacity透明度
-* 子Text连backgroundColor都可以继承-_-!!!
+* Text中的子Text连backgroundColor都可以继承-_-!!!
+
+## Text
+* Text中的子Text设置padding,margin无效
 
 ## Dimensions
 * Dimensions.get('window').width/height, 必须等初始View加载完成后才有值, 否则为undefined

@@ -15,7 +15,7 @@ let ratio = PixelRatio.get(),
 
 const Dimension = {
   ratio: ratio,
-  pixel: pixel,
+  pixel: pixel, //废弃, 用StyleSheet.hairLineWidth代替
 }
 
 export default Dimension

@@ -10,30 +10,53 @@ import React, {
   View,
   Text,
   Image,
+  TouchableHighlight,
   StyleSheet,
   Dimensions,
+  Animated,
+  Easing,
+  Navigator,
 } from 'react-native'
 import Dimension from '../common/dimension'
 import advertisement from './images/advertisement.jpg'
 
+let hideAdvertisementAnimation = null
+
 export default class Advertisement extends Component {
+
+  static defaultProps = {
+    onCountDownEnd() {
+        this.setState({
+          show: false,
+        })
+    },
+  }  // 注意这里有分号
+
+  static propTypes = {
+    onCountDownEnd: React.PropTypes.func.isRequired,
+    countDownSeconds: React.PropTypes.number.isRequired,
+  }
 
   // 构造
   constructor(props) {
     super(props)
     // 初始状态
     this.state = {
-      countdown: 3,
+      show: true,
+      countdown: props.countDownSeconds || 3,
+      transformAnim: new Animated.Value(1),
+      opacityAnim: new Animated.Value(1),
     }
     this.countdownTimer = null
   }
 
   componentDidMount () {
+
       this.countdownTimer = setInterval( () => {
         let countdown = this.state.countdown - 1
         if(countdown == 0) {
           clearInterval(this.countdownTimer)
-          alert('进入首页')
+          this._hideAdvertisement()
           return
         }
         this.setState({
@@ -51,17 +74,38 @@ export default class Advertisement extends Component {
   render() {
 
     return (
-      <View class={styles.container}>
-        <Image style={styles.advertisement} resizeMode={'stretch'} source={advertisement}>
-            <Text style={styles.countdownText}>
-              跳过
-              <Text style={styles.countdownNum}>
-                {this.state.countdown}
-              </Text>
-            </Text>
-        </Image>
-      </View>
+      this.state.show ?
+        <View class={[styles.container]}>
+          <Animated.Image style={[styles.advertisement, {opacity:this.state.opacityAnim}]} resizeMode={'stretch'} source={advertisement}>
+            <TouchableHighlight style={styles.coundownWrapper} onPress={this._hideAdvertisement}>
+                <View style={styles.coundownWrapper}>
+                  <Text style={[styles.coundownText, styles.coundownTitle]}>
+                    跳过
+                  </Text>
+                  <Text style={[styles.coundownText,styles.countdownNum]}>
+                    {this.state.countdown}
+                  </Text>
+                </View>
+            </TouchableHighlight>
+          </Animated.Image>
+        </View> : null
     )
+
+  }
+
+  _hideAdvertisement = () => {
+    if(hideAdvertisementAnimation) {
+      hideAdvertisementAnimation.stop()
+    }
+    hideAdvertisementAnimation = Animated.timing(
+      this.state.opacityAnim,
+      {toValue: 0,
+        duration: 510,
+        easing: Easing.elastic(1),
+        //delay: delay,
+      }
+    )
+    hideAdvertisementAnimation.start( this.props.onCountDownEnd.bind(this) )
 
   }
 
@@ -73,6 +117,9 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
+    position: "absolute", //没有z-index, 这个组件View得放在最后才能保证遮住其他View
+    top:0,
+    left:0,
   },
 
   advertisement: {
@@ -84,19 +131,30 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
 
-  countdownText: {
+  coundownWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
     borderRadius: 6,
+    width: 50,
+    height: 24,
+    backgroundColor: 'rgba(0, 0, 0, .2)',
+  },
+
+  coundownText: {
+    lineHeight: 18,
     fontSize: 12,
     color: '#fff',
-    padding: 6,
-    backgroundColor: 'rgba(0, 0, 0, .2)',
-    //borderWidth: Dimension.pixel,
-    //borderColor: '#fff',
+  },
+
+  coundownTitle: {
+    paddingLeft: 6,
+    color: '#fff',
   },
 
   countdownNum: {
+    lineHeight: 19,
+    paddingLeft: 6,
     color: 'red',
-    backgroundColor: 'transparent',
   }
 
 })
