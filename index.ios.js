@@ -31,18 +31,16 @@ class OneHundredDayOfRN extends Component {
     //)
 
     return (
-      <View style={styles.container}>
         <TabBarIndex/>
-      </View>
     )
 
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  }
-})
+//const styles = StyleSheet.create({
+//  container: {
+//    flex: 1,
+//  }
+//})
 
 AppRegistry.registerComponent('OneHundredDaysOfReactNative', () => OneHundredDayOfRN)

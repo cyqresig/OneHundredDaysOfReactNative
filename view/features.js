@@ -28,6 +28,9 @@ import feature2 from './images/feature2.jpg'
 import feature3 from './images/feature3.jpg'
 
 import SplashScreen from '@remobile/react-native-splashscreen'
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
+
+let hideFeatureAnimation = null
 
 export default class Features extends Component {
 
@@ -36,7 +39,9 @@ export default class Features extends Component {
       super(props);
       // 初始状态
       this.state = {
-        showAd: false,
+        show: true,
+        statusBarHidden: true,
+        opacityAnim: new Animated.Value(1),
       };
     }
 
@@ -45,33 +50,51 @@ export default class Features extends Component {
   }
 
   render() {
+      let features = this.state.show ?
+                        <Animated.View style={{position: 'absolute', left: 0, top: 0, opacity:this.state.opacityAnim}}>
+                          <Swiper activeDot={activeDot} loop={false}>
+                            <View style={styles.featureWrapper}>
+                              <Image style={styles.featureImg} resizeMode={'stretch'} source={feature1}></Image>
+                            </View>
+                            <View style={styles.featureWrapper}>
+                              <Image style={styles.featureImg} resizeMode={'stretch'} source={feature2}></Image>
+                            </View>
+                            <View style={styles.featureWrapper}>
+                              <Image style={styles.featureImg} resizeMode={'stretch'} source={feature3}>
+                                <Text style={styles.featureText} onPress={this._handleToIndex}>立即体验</Text>
+                              </Image>
+                            </View>
+                          </Swiper>
+                        </Animated.View> : null
       return (
-          !this.state.showAd ?
             <View style={{position: 'absolute', left: 0, top: 0,}}>
-              <StatusBar hidden={true}></StatusBar>
-              <Swiper activeDot={activeDot} loop={false}>
-                <View style={styles.featureWrapper}>
-                  <Image style={styles.featureImg} resizeMode={'stretch'} source={feature1}></Image>
-                </View>
-                <View style={styles.featureWrapper}>
-                  <Image style={styles.featureImg} resizeMode={'stretch'} source={feature2}></Image>
-                </View>
-                <View style={styles.featureWrapper}>
-                  <Image style={styles.featureImg} resizeMode={'stretch'} source={feature3}>
-                    <Text style={styles.featureText} onPress={this._handleToIndex}>立即体验</Text>
-                  </Image>
-                </View>
-              </Swiper>
+              <StatusBar hidden={this.state.statusBarHidden}></StatusBar>
+              <Advertisement countDownSeconds={2}></Advertisement>
+              {features}
             </View>
-             : <Advertisement countDownSeconds={2}></Advertisement>
-
       )
   }
 
   _handleToIndex = () => {
-    this.setState({
-      showAd: true,
-    })
+    if(!hideFeatureAnimation) {
+      this.setState({
+        statusBarHidden: false,
+      })
+      RCTDeviceEventEmitter.emit('startCountDown.advertisement')
+      hideFeatureAnimation = Animated.timing(
+        this.state.opacityAnim,
+        {toValue: 0,
+          duration: 510, //1020,
+          easing: Easing.elastic(1),
+          //delay: delay,
+        }
+      )
+      hideFeatureAnimation.start( () => {
+        this.setState({
+          show: false,
+        })
+      } )
+    }
     //this.props.navigator.replace({
     //  component: Advertisement,
     //  navigationBarHidden: true,

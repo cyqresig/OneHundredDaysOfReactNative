@@ -36,7 +36,7 @@ export default class TabBarIndex extends Component {
 
   componentWillMount () {
     //@todo获取本地缓存
-    let firstEntrance = false
+    let firstEntrance = true
 
     this.setState({
       isFirstEntrance: firstEntrance,

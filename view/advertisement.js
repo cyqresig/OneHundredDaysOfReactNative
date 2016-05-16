@@ -22,6 +22,7 @@ import {
 import Dimension from '../common/dimension'
 import advertisement from './images/advertisement.jpg'
 import SplashScreen from '@remobile/react-native-splashscreen'
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 
 let hideAdvertisementAnimation = null
 
@@ -53,19 +54,22 @@ export default class Advertisement extends Component {
   }
 
   componentDidMount () {
+      RCTDeviceEventEmitter.addListener('startCountDown.advertisement', () => {
+        this.countdownTimer = setInterval( () => {
+          let countdown = this.state.countdown - 1
+          if(countdown == 0) {
+            clearInterval(this.countdownTimer)
+            this._hideAdvertisement()
+            return
+          }
+          this.setState({
+            countdown: countdown,
+          })
+        }, 1000)
+      })
+
       SplashScreen.hide()
 
-      this.countdownTimer = setInterval( () => {
-        let countdown = this.state.countdown - 1
-        if(countdown == 0) {
-          clearInterval(this.countdownTimer)
-          this._hideAdvertisement()
-          return
-        }
-        this.setState({
-          countdown: countdown,
-        })
-      }, 1000)
   }
 
   render() {

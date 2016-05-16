@@ -148,10 +148,23 @@
 ## 版本
 * 新版本导致API的位置有所变化, 使用旧api方式会报警告
 
+
+## 遗留问题
+* 平级组件相互通信, 通过事件
+
 # Daily
 
 # day1
-## app entrance
+## An entrance advertisement swiper app
 * ios9 how to set LanchImage
 * react-native-swiper
 * CSS, Image(resizeMode), Dimensions, PixelRatio
+
+# day2
+## An entrance animation app
+* countdown
+* Animated, position'absolute'
+
+# day3
+* StatusBar
+* TabBarIOS
