@@ -11,6 +11,8 @@
 
 #import "RCTRootView.h"
 
+#import "RCTSplashScreen.h" //<--- import
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -47,6 +49,7 @@
                                                       moduleName:@"OneHundredDaysOfReactNative"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
+  [RCTSplashScreen show:rootView]; //<--- add show SplashScreen
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

@@ -5,22 +5,35 @@ import React, {
   AppRegistry,
   Component,
   StyleSheet,
+  View,
   NavigatorIOS,
+  StatusBar,
 } from 'react-native'
 
-import Feature from './view/features'
+//import Feature from './view/features'
+import TabBarIndex from './view/tabbar-index'
 
 class OneHundredDayOfRN extends Component {
 
   render () {
 
+    //return (
+    //  <View style={styles.container}>
+    //    <StatusBar animated={true} hidden={true} />
+    //    <NavigatorIOS style={styles.container}
+    //                  initialRoute={{
+    //      component: Feature,
+    //      //title: '100 Days of RN',
+    //      navigationBarHidden: true,
+    //    }}
+    //    />
+    //  </View>
+    //)
+
     return (
-      <NavigatorIOS style={styles.container}
-        initialRoute={{
-          component: Feature,
-          navigationBarHidden: true,
-        }}
-      />
+      <View style={styles.container}>
+        <TabBarIndex/>
+      </View>
     )
 
   }

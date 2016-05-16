@@ -4,9 +4,10 @@
  * @version
  * Created on 16/5/13.
  */
-
 import React, {
   Component,
+} from 'react'
+import {
   View,
   Text,
   Image,
@@ -16,6 +17,7 @@ import React, {
   Animated,
   Easing,
   Navigator,
+  StatusBar,
 } from 'react-native'
 import Dimension from '../common/dimension'
 import advertisement from './images/advertisement.jpg'
@@ -26,9 +28,7 @@ export default class Advertisement extends Component {
 
   static defaultProps = {
     onCountDownEnd() {
-        this.setState({
-          show: false,
-        })
+
     },
   }  // 注意这里有分号
 
@@ -42,6 +42,7 @@ export default class Advertisement extends Component {
     super(props)
     // 初始状态
     this.state = {
+      barStyle: 'light-content',
       show: true,
       countdown: props.countDownSeconds || 3,
       transformAnim: new Animated.Value(1),
@@ -65,18 +66,13 @@ export default class Advertisement extends Component {
       }, 1000)
   }
 
-  componentWillUnMount () {
-    if(this.countdownTimer != null) {
-      clearInterval(this.countdownTimer)
-    }
-  }
-
   render() {
 
     return (
       this.state.show ?
-        <View class={[styles.container]}>
-          <Animated.Image style={[styles.advertisement, {opacity:this.state.opacityAnim}]} resizeMode={'stretch'} source={advertisement}>
+        <Animated.View style={[styles.container, {opacity:this.state.opacityAnim}]}>
+          <StatusBar animated={true} barStyle={this.state.barStyle} hidden={false}/>
+          <Image style={[styles.advertisement]} resizeMode={'stretch'} source={advertisement}>
             <TouchableHighlight style={styles.coundownWrapper} onPress={this._hideAdvertisement}>
                 <View style={styles.coundownWrapper}>
                   <Text style={[styles.coundownText, styles.coundownTitle]}>
@@ -87,26 +83,35 @@ export default class Advertisement extends Component {
                   </Text>
                 </View>
             </TouchableHighlight>
-          </Animated.Image>
-        </View> : null
+          </Image>
+        </Animated.View> : <StatusBar animated={true} barStyle={this.state.barStyle} hidden={false}/>
     )
 
   }
 
   _hideAdvertisement = () => {
-    if(hideAdvertisementAnimation) {
-      hideAdvertisementAnimation.stop()
+    if(!hideAdvertisementAnimation) {
+      this.setState({
+        barStyle: 'default'
+      })
+      hideAdvertisementAnimation = Animated.timing(
+        this.state.opacityAnim,
+        {toValue: 0,
+          duration: 510, //1020,
+          easing: Easing.elastic(1),
+          //delay: delay,
+        }
+      )
+      hideAdvertisementAnimation.start( () => {
+        this.setState({
+          show: false,
+        })
+        if(this.countdownTimer != null) {
+          clearInterval(this.countdownTimer)
+        }
+      } )
+      this.props.onCountDownEnd.bind(this)()
     }
-    hideAdvertisementAnimation = Animated.timing(
-      this.state.opacityAnim,
-      {toValue: 0,
-        duration: 510,
-        easing: Easing.elastic(1),
-        //delay: delay,
-      }
-    )
-    hideAdvertisementAnimation.start( this.props.onCountDownEnd.bind(this) )
-
   }
 
 }

@@ -6,6 +6,8 @@
  */
 import React, {
   Component,
+} from 'react'
+import {
   StyleSheet,
   View,
   Text,
@@ -16,6 +18,8 @@ import React, {
 import Swiper from 'react-native-swiper'
 import Dimension from '../common/dimension'
 import Advertisement from './advertisement'
+import Index from './index'
+//import Main from './main'
 import feature1 from './images/feature1.jpg'
 import feature2 from './images/feature2.jpg'
 import feature3 from './images/feature3.jpg'
@@ -46,6 +50,13 @@ export default class Features extends Component {
       navigationBarHidden: true,
       passProps: {
         countDownSeconds: 3,
+        onCountDownEnd() {
+          this.props.navigator.replace({
+            component: Index,
+            title: '100 Days of RN',
+            navigationBarHidden: false,
+          })
+        }
       }
     })
   }

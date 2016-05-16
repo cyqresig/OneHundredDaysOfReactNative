@@ -135,13 +135,18 @@
 ##  Animatation
 *  Animated 默认可以对Image, Text, View实现动画, 可以扩展动画组件, 通过直接的API声明来产生实际动画
 *  LayoutAnimation 实现效果相对比较简单, 通过state改变来产生实际动画
+*  注意Animation动画设置的View的位置,
 
 ## Navigator
 *  Navigator自定义手势事件, 切换动画等(需要使用Navigator而不是NavigatorIOS, 垂直旋转, 侧滑回退等)
-
+*  顶部StausBar预留20pt, NavigatorIOS.title预留44pt, Navigator.title高度暂未知(猜测也是44pt)
+*  同一个NavigatorIOS的title栏设置隐藏或显示后, 无法再变更成显示或隐藏
 
 ## fetch
 *  已支持timeout设置
+
+## 版本
+* 新版本导致API的位置有所变化, 使用旧api方式会报警告
 
 # Daily
 
