@@ -21,6 +21,7 @@ import {
 } from 'react-native'
 import Dimension from '../common/dimension'
 import advertisement from './images/advertisement.jpg'
+import SplashScreen from '@remobile/react-native-splashscreen'
 
 let hideAdvertisementAnimation = null
 
@@ -52,6 +53,7 @@ export default class Advertisement extends Component {
   }
 
   componentDidMount () {
+      SplashScreen.hide()
 
       this.countdownTimer = setInterval( () => {
         let countdown = this.state.countdown - 1
@@ -71,7 +73,7 @@ export default class Advertisement extends Component {
     return (
       this.state.show ?
         <Animated.View style={[styles.container, {opacity:this.state.opacityAnim}]}>
-          <StatusBar animated={true} barStyle={this.state.barStyle} hidden={false}/>
+          <StatusBar animated={true} barStyle={this.state.barStyle}></StatusBar>
           <Image style={[styles.advertisement]} resizeMode={'stretch'} source={advertisement}>
             <TouchableHighlight style={styles.coundownWrapper} onPress={this._hideAdvertisement}>
                 <View style={styles.coundownWrapper}>
@@ -84,7 +86,7 @@ export default class Advertisement extends Component {
                 </View>
             </TouchableHighlight>
           </Image>
-        </Animated.View> : <StatusBar animated={true} barStyle={this.state.barStyle} hidden={false}/>
+        </Animated.View> : <StatusBar animated={true} barStyle={this.state.barStyle}></StatusBar>
     )
 
   }

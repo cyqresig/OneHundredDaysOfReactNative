@@ -15,7 +15,6 @@ import {
   Text,
   Image,
   Dimensions,
-  StatusBar,
 } from 'react-native'
 
 import carousel_1 from './images/carousel-1.jpg'
@@ -26,28 +25,67 @@ import carousel_5 from './images/carousel-5.jpg'
 import carousel_6 from './images/carousel-6.jpg'
 import carousel_7 from './images/carousel-7.jpg'
 
-import SplashScreen from '@remobile/react-native-splashscreen'
+//import SplashScreen from '@remobile/react-native-splashscreen'
+
 
 export default class Main extends Component {
 
+  // 构造
+    constructor(props) {
+      super(props);
+      // 初始状态
+      this.state = {
+        carouselList: [],
+      };
+    }
+
   componentDidMount() {
-    SplashScreen.hide();
+
+    //simulate get carousel data
+    setTimeout( () => {
+      this.setState({
+        carouselList: [
+          {
+            source: carousel_1
+          },
+          {
+            source: carousel_2
+          },
+          {
+            source: carousel_3
+          },
+          {
+            source: carousel_4
+          },
+          {
+            source: carousel_5
+          },
+          {
+            source: carousel_6
+          },
+          {
+            source: carousel_7
+          },
+        ]
+      })
+      //SplashScreen.hide();
+
+    }, 3000)
   }
 
   render() {
+    let carouselList = this.state.carouselList.map((item, index) => {
+      return (
+        <View>
+          <Image style={styles.carouselItem} resizeMode={'stretch'} source={item.source}></Image>
+        </View>
+      )
+    })
 
     return (
       <View style={[styles.stautBarCap, styles.container]}>
         <Swiper height={carouselHeight} autoplay={true} autoplayTimeout={3.5} activeDot={activeDot}>
-          <View>
-            <Image style={styles.carouselItem} resizeMode={'stretch'} source={carousel_1}></Image>
-          </View>
-          <View>
-            <Image style={styles.carouselItem} resizeMode={'stretch'} source={carousel_2}></Image>
-          </View>
-          <View>
-            <Image style={styles.carouselItem} resizeMode={'stretch'} source={carousel_3}></Image>
-          </View>
+          {carouselList}
         </Swiper>
       </View>
 

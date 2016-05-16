@@ -14,11 +14,11 @@ import {
   StyleSheet,
   TabBarIOS,
   NavigatorIOS,
-  StatusBar,
 } from 'react-native'
 
 import Main from './main'
 import Advertisement from './advertisement'
+import Features from './features'
 
 export default class TabBarIndex extends Component {
 
@@ -27,9 +27,21 @@ export default class TabBarIndex extends Component {
     super(props);
     // 初始状态
     this.state = {
+      isFirstEntrance: false,
+      isShowAd: false,
       opacity: 0,
       selectedTab: 'index',
     };
+  }
+
+  componentWillMount () {
+    //@todo获取本地缓存
+    let firstEntrance = false
+
+    this.setState({
+      isFirstEntrance: firstEntrance,
+    })
+
   }
 
   componentDidMount () {
@@ -41,10 +53,10 @@ export default class TabBarIndex extends Component {
   }
 
   render() {
-
+    let appInfo = this.state.isFirstEntrance ?
+                  <Features/> : <Advertisement countDownSeconds={2}></Advertisement>
     return (
       <View style={styles.container}>
-        <StatusBar animated={true} barStyle={'light-content'} hidden={false} />
         <TabBarIOS style={{opacity: this.state.opacity,}} tintColor={'red'} barTintColor={'rgba(255, 255, 255, .8)'}>
           <TabBarIOS.Item
             systemIcon="more"
@@ -59,15 +71,16 @@ export default class TabBarIndex extends Component {
                     component: Main,
                     title: '100 Days of RN',
                     //navigationBarHidden: true,
-
                   }}
             />
           </TabBarIOS.Item>
         </TabBarIOS>
-        <Advertisement countDownSeconds={2}></Advertisement>
+        {appInfo}
       </View>
     )
   }
+
+
 
 }
 

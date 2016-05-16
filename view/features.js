@@ -14,6 +14,9 @@ import {
   Image,
   Dimensions,
   PixelRatio,
+  Animated,
+  Easing,
+  StatusBar,
 } from 'react-native'
 import Swiper from 'react-native-swiper'
 import Dimension from '../common/dimension'
@@ -24,41 +27,65 @@ import feature1 from './images/feature1.jpg'
 import feature2 from './images/feature2.jpg'
 import feature3 from './images/feature3.jpg'
 
+import SplashScreen from '@remobile/react-native-splashscreen'
+
 export default class Features extends Component {
+
+  // 构造
+    constructor(props) {
+      super(props);
+      // 初始状态
+      this.state = {
+        showAd: false,
+      };
+    }
+
+  componentDidMount () {
+    SplashScreen.hide()
+  }
 
   render() {
       return (
-          <Swiper activeDot={activeDot} loop={false}>
-              <View style={styles.featureWrapper}>
+          !this.state.showAd ?
+            <View style={{position: 'absolute', left: 0, top: 0,}}>
+              <StatusBar hidden={true}></StatusBar>
+              <Swiper activeDot={activeDot} loop={false}>
+                <View style={styles.featureWrapper}>
                   <Image style={styles.featureImg} resizeMode={'stretch'} source={feature1}></Image>
-              </View>
-              <View style={styles.featureWrapper}>
+                </View>
+                <View style={styles.featureWrapper}>
                   <Image style={styles.featureImg} resizeMode={'stretch'} source={feature2}></Image>
-              </View>
-              <View style={styles.featureWrapper}>
-                <Image style={styles.featureImg} resizeMode={'stretch'} source={feature3}>
-                  <Text style={styles.featureText} onPress={this._handleToIndex}>立即体验</Text>
-                </Image>
-              </View>
-          </Swiper>
+                </View>
+                <View style={styles.featureWrapper}>
+                  <Image style={styles.featureImg} resizeMode={'stretch'} source={feature3}>
+                    <Text style={styles.featureText} onPress={this._handleToIndex}>立即体验</Text>
+                  </Image>
+                </View>
+              </Swiper>
+            </View>
+             : <Advertisement countDownSeconds={2}></Advertisement>
+
       )
   }
 
   _handleToIndex = () => {
-    this.props.navigator.replace({
-      component: Advertisement,
-      navigationBarHidden: true,
-      passProps: {
-        countDownSeconds: 3,
-        onCountDownEnd() {
-          this.props.navigator.replace({
-            component: Index,
-            title: '100 Days of RN',
-            navigationBarHidden: false,
-          })
-        }
-      }
+    this.setState({
+      showAd: true,
     })
+    //this.props.navigator.replace({
+    //  component: Advertisement,
+    //  navigationBarHidden: true,
+    //  passProps: {
+    //    countDownSeconds: 3,
+    //    onCountDownEnd() {
+    //      this.props.navigator.replace({
+    //        component: Index,
+    //        title: '100 Days of RN',
+    //        navigationBarHidden: false,
+    //      })
+    //    }
+    //  }
+    //})
   }
 
 }
