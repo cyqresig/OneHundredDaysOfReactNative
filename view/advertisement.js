@@ -44,6 +44,8 @@ export default class Advertisement extends Component {
     super(props)
     // 初始状态
     this.state = {
+      statusBarHidden: true,
+      //statusBarHidden: false,
       barStyle: 'light-content',
       show: true,
       countdown: props.countDownSeconds || 3,
@@ -55,6 +57,12 @@ export default class Advertisement extends Component {
 
   componentDidMount () {
       RCTDeviceEventEmitter.addListener('startCountDown.advertisement', () => {
+        this.setState({
+          statusBarHidden: false,
+        })
+
+        RCTDeviceEventEmitter.emit('jumpToIndex.tabbar-index')
+
         this.countdownTimer = setInterval( () => {
           let countdown = this.state.countdown - 1
           if(countdown == 0) {
@@ -77,7 +85,7 @@ export default class Advertisement extends Component {
     return (
       this.state.show ?
         <Animated.View style={[styles.container, {opacity:this.state.opacityAnim}]}>
-          <StatusBar animated={true} barStyle={this.state.barStyle}></StatusBar>
+          <StatusBar animated={true} barStyle={this.state.barStyle} hidden={this.state.statusBarHidden}></StatusBar>
           <Image style={[styles.advertisement]} resizeMode={'stretch'} source={advertisement}>
             <TouchableHighlight style={styles.coundownWrapper} onPress={this._hideAdvertisement}>
                 <View style={styles.coundownWrapper}>
@@ -90,7 +98,7 @@ export default class Advertisement extends Component {
                 </View>
             </TouchableHighlight>
           </Image>
-        </Animated.View> : <StatusBar animated={true} barStyle={this.state.barStyle}></StatusBar>
+        </Animated.View> : <StatusBar animated={true} barStyle={this.state.barStyle} hidden={this.state.statusBarHidden}></StatusBar>
     )
 
   }

@@ -5,6 +5,8 @@
  * Created on 16/5/14.
  */
 
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import Swiper from 'react-native-swiper'
 import React, {
   Component,
@@ -13,8 +15,12 @@ import {
   StyleSheet,
   View,
   Text,
+  ScrollView,
+  TouchableHighlight,
   Image,
   Dimensions,
+  Alert,
+  StatusBar,
 } from 'react-native'
 
 import carousel_1 from './images/carousel-1.jpg'
@@ -39,58 +45,189 @@ export default class Main extends Component {
       };
     }
 
-  componentDidMount() {
+  componentWillMount() {
 
-    //simulate get carousel data
-    setTimeout( () => {
-      this.setState({
-        carouselList: [
-          {
-            source: carousel_1
-          },
-          {
-            source: carousel_2
-          },
-          {
-            source: carousel_3
-          },
-          {
-            source: carousel_4
-          },
-          {
-            source: carousel_5
-          },
-          {
-            source: carousel_6
-          },
-          {
-            source: carousel_7
-          },
-        ]
-      })
-      //SplashScreen.hide();
+    this.setState({
+      carouselList: [
+        {
+          source: carousel_1
+        },
+        {
+          source: carousel_2
+        },
+        {
+          source: carousel_3
+        },
+        {
+          source: carousel_4
+        },
+        {
+          source: carousel_5
+        },
+        {
+          source: carousel_6
+        },
+        {
+          source: carousel_7
+        },
+      ],
 
-    }, 3000)
+      days: [
+        {
+          navTitle: 'day1',
+          title: 'Day 1',
+          //component: Day1,
+          isFontAwesome: true,
+          icon: 'apple',
+          size: 48,
+          color: '#E5E5E5'
+        },
+        {
+          navTitle: 'day2',
+          title: 'Day 2',
+          //component: Day1,
+          isFontAwesome: true,
+          icon: 'apple',
+          size: 48,
+          color: '#E5E5E5'
+        },
+        {
+          navTitle: 'day3',
+          title: 'Day 3',
+          //component: Day1,
+          isFontAwesome: true,
+          icon: 'apple',
+          size: 48,
+          color: '#E5E5E5'
+        },
+        {
+          navTitle: 'day4',
+          title: 'Day 4',
+          //component: Day1,
+          isFontAwesome: true,
+          icon: 'apple',
+          size: 48,
+          color: '#E5E5E5'
+        },
+        {
+          navTitle: 'day5',
+          title: 'Day 5',
+          //component: Day1,
+          isFontAwesome: true,
+          icon: 'apple',
+          size: 48,
+          color: '#E5E5E5'
+        },
+        {
+          navTitle: 'day6',
+          title: 'Day 6',
+          //component: Day1,
+          isFontAwesome: true,
+          icon: 'apple',
+          size: 48,
+          color: '#E5E5E5'
+        },
+        {
+          navTitle: 'day7',
+          title: 'Day 6',
+          //component: Day1,
+          isFontAwesome: true,
+          icon: 'apple',
+          size: 48,
+          color: '#E5E5E5'
+        },
+        {
+          navTitle: 'day8',
+          title: 'Day 6',
+          //component: Day1,
+          isFontAwesome: true,
+          icon: 'apple',
+          size: 48,
+          color: '#E5E5E5'
+        },
+        {
+          navTitle: 'day9',
+          title: 'Day 6',
+          //component: Day1,
+          isFontAwesome: true,
+          icon: 'apple',
+          size: 48,
+          color: '#E5E5E5'
+        },
+        {
+          navTitle: 'day10',
+          title: 'Day 6',
+          //component: Day1,
+          isFontAwesome: true,
+          icon: 'apple',
+          size: 48,
+          color: '#E5E5E5'
+        },
+        {},
+        {},
+      ]
+    })
+
   }
 
   render() {
     let carouselList = this.state.carouselList.map((item, index) => {
       return (
-        <View>
-          <Image style={styles.carouselItem} resizeMode={'stretch'} source={item.source}></Image>
-        </View>
+        <TouchableHighlight>
+          <View>
+            <Image style={styles.carouselItem} resizeMode={'stretch'} source={item.source}></Image>
+          </View>
+        </TouchableHighlight>
+
       )
     })
 
-    return (
-      <View style={[styles.stautBarCap, styles.container]}>
-        <Swiper height={carouselHeight} autoplay={true} autoplayTimeout={3.5} activeDot={activeDot}>
-          {carouselList}
-        </Swiper>
-      </View>
+    let dayList = this.state.days.map((item, index, arr) => {
+      return (
+        <TouchableHighlight underlayColor="#eee" onPress={ this._jumpTo.bind(this, index)}>
+          <View style={[styles.speedDialBox, this._getBoxBorderStyle(index, item), ]}>
+              {
+                item.icon ?
+                  ( item.isFontAwesome ?
+                  <FontAwesome size={item.size} name={item.icon} color={item.color}/> :
+                  <Ionicons size={item.size} name={item.icon} color={item.color}/> ) : null
+              }
+              <Text style={styles.speedDialText}>{item.navTitle}</Text>
+          </View>
+        </TouchableHighlight>
+      )
+        //<Image style={styles.boxIcon} source={item.icon}/>
+    })
 
+    return (
+        <ScrollView style={[styles.stautBarCap, styles.container]}>
+          <Swiper height={carouselHeight} autoplay={true} autoplayTimeout={3.5} activeDot={activeDot}>
+            {carouselList}
+          </Swiper>
+          <View style={styles.speedDialWrapper}>
+            {dayList}
+          </View>
+        </ScrollView>
     )
 
+  }
+
+
+  _getBoxBorderStyle(index, item) {
+    return (index % 3 == 2 || !item.navTitle) ? null : styles.boxBorderRight
+  }
+
+  _jumpTo(index) {
+      Alert.alert(
+        '提示信息',
+        this.state.days[index].title,
+        []
+      )
+      //this.props.navigator.push({
+      //  title: this.state.days[index].title,
+      //  component: this.state.days[index].component,
+      //  navigationBarHidden: this.state.days[index].isHideBar
+      //})
   }
 
 }
@@ -106,16 +243,58 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
+    backgroundColor: '#F4F4F4',
   },
-  
+
   carouselItem: {
     width: deviceWidth,
     height: carouselHeight,
   },
 
   stautBarCap: {
-    marginTop: 20 + 44,
+    //marginTop: 20 + 44,  //View
+    marginTop: 0,  //scrollView不需要留出额外高度?
+    //marginTop: -64,   //有效, 做下拉刷新时会有用?
   },
+
+
+  speedDialWrapper: {
+    backgroundColor: '#fff',
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor:"#ccc",
+  },
+
+  speedDialBox: {
+    width: deviceWidth / 3,
+    height: deviceWidth / 3,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#ccc',
+  },
+
+  speedDialText: {
+    fontSize: 16,
+    padding: 3,
+  },
+
+  //boxBorderLeft: {
+  //  //borderBottomWidth: StyleSheet.hairlineWidth,
+  //  //borderBottomColor: '#F4F4F4',
+  //  borderLeftWidth: StyleSheet.hairlineWidth,
+  //  borderLeftColor: '#F4F4F4',
+  //},
+
+
+  boxBorderRight: {
+    borderRightWidth: StyleSheet.hairlineWidth,
+    borderRightColor: '#ccc',
+  },
+
 
 
 })

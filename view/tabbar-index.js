@@ -4,7 +4,7 @@
  * @version
  * Created on 16/5/16.
  */
-
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import React, {
   Component,
 } from 'react'
@@ -19,6 +19,7 @@ import {
 import Main from './main'
 import Advertisement from './advertisement'
 import Features from './features'
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 
 export default class TabBarIndex extends Component {
 
@@ -27,6 +28,7 @@ export default class TabBarIndex extends Component {
     super(props);
     // 初始状态
     this.state = {
+      isJumpToIndex: false,
       isFirstEntrance: false,
       isShowAd: false,
       opacity: 0,
@@ -35,7 +37,7 @@ export default class TabBarIndex extends Component {
   }
 
   componentWillMount () {
-    //@todo获取本地缓存
+    //@todo 获取本地缓存
     let firstEntrance = true
 
     this.setState({
@@ -45,6 +47,15 @@ export default class TabBarIndex extends Component {
   }
 
   componentDidMount () {
+
+    //@todo 获取远程数据, 选一种可用的组件间通信方式进行传值, 并操作
+
+    RCTDeviceEventEmitter.addListener('jumpToIndex.tabbar-index', () => {
+      this.setState({
+        isJumpToIndex: true,
+      })
+    })
+
     setTimeout( () => {
       this.setState({
         opacity: 1
@@ -53,31 +64,52 @@ export default class TabBarIndex extends Component {
   }
 
   render() {
+    let index = this.state.isJumpToIndex ?
+      <TabBarIOS style={{opacity: this.state.opacity,}} tintColor={'red'} barTintColor={'rgba(255, 255, 255, .8)'}>
+        <Ionicons.TabBarItemIOS
+          iconName={"ios-home-outline"}
+          iconSize={28}
+          title={'首页'}
+          selected={this.state.selectedTab === 'index'}
+          onPress={() => {
+              this.setState({
+                selectedTab: 'index'
+              })
+            }}>
+          <NavigatorIOS style={styles.container}
+                        initialRoute={{
+                      component: Main,
+                      title: '100 Days of RN',
+                      //navigationBarHidden: true,
+                    }}
+          />
+        </Ionicons.TabBarItemIOS>
+        <Ionicons.TabBarItemIOS
+          iconName={"ios-home-outline"}
+          iconSize={28}
+          title={'首页2'}
+          selected={this.state.selectedTab === 'index2'}
+          onPress={() => {
+              this.setState({
+                selectedTab: 'index2'
+              })
+            }}>
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',}}>
+            <Text>index2</Text>
+          </View>
+
+        </Ionicons.TabBarItemIOS>
+      </TabBarIOS> : null
+
     let appInfo = this.state.isFirstEntrance ?
                   <Features/> : <Advertisement countDownSeconds={2}></Advertisement>
     return (
       <View style={styles.container}>
-        <TabBarIOS style={{opacity: this.state.opacity,}} tintColor={'red'} barTintColor={'rgba(255, 255, 255, .8)'}>
-          <TabBarIOS.Item
-            systemIcon="more"
-            selected={this.state.selectedTab === 'index'}
-            onPress={() => {
-            this.setState({
-              selectedTab: 'index'
-            })
-          }}>
-            <NavigatorIOS style={styles.container}
-                          initialRoute={{
-                    component: Main,
-                    title: '100 Days of RN',
-                    //navigationBarHidden: true,
-                  }}
-            />
-          </TabBarIOS.Item>
-        </TabBarIOS>
+        {index}
         {appInfo}
       </View>
     )
+    //@todo 最佳的方式, 将features与advertisement平级放在tabbarindex中, 而不再将advertisement放在features中, 不利于解耦
   }
 
 

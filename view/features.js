@@ -68,7 +68,6 @@ export default class Features extends Component {
                         </Animated.View> : null
       return (
             <View style={{position: 'absolute', left: 0, top: 0,}}>
-              <StatusBar hidden={this.state.statusBarHidden}></StatusBar>
               <Advertisement countDownSeconds={2}></Advertisement>
               {features}
             </View>
@@ -77,10 +76,7 @@ export default class Features extends Component {
 
   _handleToIndex = () => {
     if(!hideFeatureAnimation) {
-      this.setState({
-        statusBarHidden: false,
-      })
-      RCTDeviceEventEmitter.emit('startCountDown.advertisement')
+
       hideFeatureAnimation = Animated.timing(
         this.state.opacityAnim,
         {toValue: 0,
@@ -93,6 +89,7 @@ export default class Features extends Component {
         this.setState({
           show: false,
         })
+        RCTDeviceEventEmitter.emit('startCountDown.advertisement')
       } )
     }
     //this.props.navigator.replace({
