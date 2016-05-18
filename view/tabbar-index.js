@@ -81,6 +81,9 @@ export default class TabBarIndex extends Component {
                       component: Main,
                       title: '100 Days of RN',
                       //navigationBarHidden: true,
+                      passProps: {
+                        navigator: this.props.navigator,
+                      }
                     }}
           />
         </Ionicons.TabBarItemIOS>

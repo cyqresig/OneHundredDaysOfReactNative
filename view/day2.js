@@ -21,8 +21,6 @@ import {
 } from 'react-native'
 import Dimension from '../common/dimension'
 import advertisement from './images/advertisement.jpg'
-import SplashScreen from '@remobile/react-native-splashscreen'
-import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 
 let hideAdvertisementAnimation = null
 
@@ -32,7 +30,7 @@ export default class Advertisement extends Component {
     onCountDownEnd() {
 
     },
-  }  // 注意这里有分号
+  }
 
   static propTypes = {
     onCountDownEnd: React.PropTypes.func.isRequired,
@@ -56,27 +54,22 @@ export default class Advertisement extends Component {
   }
 
   componentDidMount () {
-      RCTDeviceEventEmitter.addListener('startCountDown.advertisement', () => {
-        this.setState({
-          statusBarHidden: false,
-        })
 
-        RCTDeviceEventEmitter.emit('jumpToIndex.tabbar-index')
+    this.setState({
+      statusBarHidden: false,
+    })
 
-        this.countdownTimer = setInterval( () => {
-          let countdown = this.state.countdown - 1
-          if(countdown == 0) {
-            clearInterval(this.countdownTimer)
-            this._hideAdvertisement()
-            return
-          }
-          this.setState({
-            countdown: countdown,
-          })
-        }, 1000)
+    this.countdownTimer = setInterval( () => {
+      let countdown = this.state.countdown - 1
+      if(countdown == 0) {
+        clearInterval(this.countdownTimer)
+        this._hideAdvertisement()
+        return
+      }
+      this.setState({
+        countdown: countdown,
       })
-
-      SplashScreen.hide()
+    }, 1000)
 
   }
 
@@ -88,14 +81,14 @@ export default class Advertisement extends Component {
           <StatusBar animated={true} barStyle={this.state.barStyle} hidden={this.state.statusBarHidden}></StatusBar>
           <Image style={[styles.advertisement]} resizeMode={'stretch'} source={advertisement}>
             <TouchableHighlight style={styles.coundownWrapper} onPress={this._hideAdvertisement}>
-                <View style={styles.coundownWrapper}>
-                  <Text style={[styles.coundownText, styles.coundownTitle]}>
-                    跳过
-                  </Text>
-                  <Text style={[styles.coundownText,styles.countdownNum]}>
-                    {this.state.countdown}
-                  </Text>
-                </View>
+              <View style={styles.coundownWrapper}>
+                <Text style={[styles.coundownText, styles.coundownTitle]}>
+                  跳过
+                </Text>
+                <Text style={[styles.coundownText,styles.countdownNum]}>
+                  {this.state.countdown}
+                </Text>
+              </View>
             </TouchableHighlight>
           </Image>
         </Animated.View> : <StatusBar animated={true} barStyle={this.state.barStyle} hidden={this.state.statusBarHidden}></StatusBar>
@@ -124,6 +117,7 @@ export default class Advertisement extends Component {
         if(this.countdownTimer != null) {
           clearInterval(this.countdownTimer)
         }
+        this.props.navigator.pop()
       } )
       this.props.onCountDownEnd.bind(this)()
     }

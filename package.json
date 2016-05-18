@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "100 days of React Native examples/demos.",
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "distribution-ios": "react-native bundle --entry-file ./index.ios.js --bundle-output ./bundle/ios/index.ios.jsbundle --platform ios --assets-dest ./bundle/ios/ --dev false"
   },
   "dependencies": {
     "@remobile/react-native-splashscreen": "^1.0.3",

@@ -86,6 +86,7 @@ export default class Features extends Component {
         }
       )
       hideFeatureAnimation.start( () => {
+        hideFeatureAnimation = null   //动画对象移除引用, 防止下次进来动画对象仍然存在
         this.setState({
           show: false,
         })

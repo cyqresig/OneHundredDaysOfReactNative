@@ -25,6 +25,8 @@
 		9F32FD1E1CE972B100660AE2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F32FD1C1CE972B100660AE2 /* LaunchScreen.xib */; };
 		9F32FD211CE9758F00660AE2 /* splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F32FD201CE9758F00660AE2 /* splash@2x.png */; };
 		9F3B930A1CE5773E00EBA16B /* 100-days-rn.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F3B93091CE5773E00EBA16B /* 100-days-rn.png */; };
+		9F3C2D9A1CEC115D00D3A115 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 9F3C2D981CEC115D00D3A115 /* assets */; };
+		9F3C2D9B1CEC115D00D3A115 /* index.ios.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 9F3C2D991CEC115D00D3A115 /* index.ios.jsbundle */; };
 		9F3C500A1CE4CBE5006637FD /* icon100.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F3C4FFB1CE4CBE5006637FD /* icon100.png */; };
 		9F3C500B1CE4CBE5006637FD /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F3C4FFC1CE4CBE5006637FD /* icon114.png */; };
 		9F3C500C1CE4CBE5006637FD /* icon120.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F3C4FFD1CE4CBE5006637FD /* icon120.png */; };
@@ -170,6 +172,8 @@
 		9F32FD1C1CE972B100660AE2 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		9F32FD201CE9758F00660AE2 /* splash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash@2x.png"; sourceTree = "<group>"; };
 		9F3B93091CE5773E00EBA16B /* 100-days-rn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "100-days-rn.png"; sourceTree = "<group>"; };
+		9F3C2D981CEC115D00D3A115 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		9F3C2D991CEC115D00D3A115 /* index.ios.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = index.ios.jsbundle; sourceTree = "<group>"; };
 		9F3C4FFB1CE4CBE5006637FD /* icon100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon100.png; sourceTree = "<group>"; };
 		9F3C4FFC1CE4CBE5006637FD /* icon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114.png; sourceTree = "<group>"; };
 		9F3C4FFD1CE4CBE5006637FD /* icon120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120.png; sourceTree = "<group>"; };
@@ -302,6 +306,8 @@
 		13B07FAE1A68108700A75B9A /* OneHundredDaysOfReactNative */ = {
 			isa = PBXGroup;
 			children = (
+				9F3C2D981CEC115D00D3A115 /* assets */,
+				9F3C2D991CEC115D00D3A115 /* index.ios.jsbundle */,
 				9FB955591CEAE783003037F7 /* Fonts */,
 				9F32FD1B1CE972B100660AE2 /* SplashScreenResource */,
 				9F3C4FFA1CE4CBE5006637FD /* icon */,
@@ -494,6 +500,9 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = L75P3RZGQ2;
+					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "OneHundredDaysOfReactNative" */;
@@ -666,6 +675,7 @@
 			files = (
 				9F3C50181CE4CBE5006637FD /* icon87.png in Resources */,
 				9FB955641CEAE783003037F7 /* FontAwesome.ttf in Resources */,
+				9F3C2D9B1CEC115D00D3A115 /* index.ios.jsbundle in Resources */,
 				9FB955671CEAE783003037F7 /* MaterialIcons.ttf in Resources */,
 				9FB955661CEAE783003037F7 /* Ionicons.ttf in Resources */,
 				9FB955691CEAE783003037F7 /* Zocial.ttf in Resources */,
@@ -673,6 +683,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				9F3C50141CE4CBE5006637FD /* icon58.png in Resources */,
 				9F3B930A1CE5773E00EBA16B /* 100-days-rn.png in Resources */,
+				9F3C2D9A1CEC115D00D3A115 /* assets in Resources */,
 				9FB955651CEAE783003037F7 /* Foundation.ttf in Resources */,
 				9F3C50151CE4CBE5006637FD /* icon72.png in Resources */,
 				9FB955681CEAE783003037F7 /* Octicons.ttf in Resources */,
@@ -784,6 +795,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: YiQin Chen (SQGHM3C9B8)";
 				DEAD_CODE_STRIPPING = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -794,6 +806,7 @@
 				INFOPLIST_FILE = OneHundredDaysOfReactNative/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cyqresig.reactnative.onehundreddays;
 				PRODUCT_NAME = OneHundredDaysOfReactNative;
 			};
 			name = Debug;
@@ -803,6 +816,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: YiQin Chen (SQGHM3C9B8)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -812,6 +826,7 @@
 				INFOPLIST_FILE = OneHundredDaysOfReactNative/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cyqresig.reactnative.onehundreddays;
 				PRODUCT_NAME = OneHundredDaysOfReactNative;
 			};
 			name = Release;

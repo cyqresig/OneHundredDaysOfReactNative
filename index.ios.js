@@ -31,16 +31,23 @@ class OneHundredDayOfRN extends Component {
     //)
 
     return (
-        <TabBarIndex/>
+      <NavigatorIOS style={styles.container}
+                    initialRoute={{
+                      component: TabBarIndex,
+                      //title: '100 Days of RN',
+                      navigationBarHidden: true,
+                    }}
+
+      />
     )
 
   }
 }
 
-//const styles = StyleSheet.create({
-//  container: {
-//    flex: 1,
-//  }
-//})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  }
+})
 
 AppRegistry.registerComponent('OneHundredDaysOfReactNative', () => OneHundredDayOfRN)
