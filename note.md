@@ -140,7 +140,8 @@
 ## Navigator
 *  Navigator自定义手势事件, 切换动画等(需要使用Navigator而不是NavigatorIOS, 垂直旋转, 侧滑回退等)
 *  顶部StausBar预留20pt, NavigatorIOS.title预留44pt, Navigator.title高度暂未知(猜测也是44pt)
-*  同一个NavigatorIOS的title栏设置隐藏或显示后, 无法再变更成显示或隐藏
+*  同一个NavigatorIOS的title栏设置隐藏或显示后, 无法再变更成显示或隐藏(???不确定???)
+*  使最外层的navigator的component部分显示时, 一定得保证statusbar显示, 否则会导致navigator的顶部不会跟在statusbar之下
 
 ## fetch
 *  已支持timeout设置
@@ -149,8 +150,16 @@
 * 新版本导致API的位置有所变化, 使用旧api方式会报警告
 
 
-## 遗留问题
-* 平级组件相互通信, 通过事件
+## 组件自定义事件通信
+* 不同组件间的通信, tabbarIOS切换时的通信等
+* RCTDeviceEventEmitter
+* 需要单独将所有自定义事件定义成对象的形式, 方便管理, 调用, 避免手写自定义事件名称(避免手写字符串失误)
+
+## 模拟ios的viewWill/DidAppear和android的activity的onResume
+* Navigator的context绑定willfocus和didfocus事件监听, 要注意的是, 当被其他View在加载时遮住时, 事件会触发2次,
+  事件监听处理器中编写逻辑代码可能需要加入小间隔的函数节流方式, 获者有更好的方式来避免
+
+
 
 # Daily
 

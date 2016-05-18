@@ -178,7 +178,34 @@ export default class Main extends Component {
 
   }
 
+  componentDidMount() {
+    console.log('main componentDidMount')
+    //在tabbar中的component要特殊处理, 判断rootRoute
+    //let currentRoute = this.props.navigator.navigationContext.currentRoute
+    let currentRoute = this.props.rootRoute
+    let callback = (event) => {
+        //didfocus emit in componentDidMount
+        if (currentRoute === event.data.route) {
+          console.log("main didAppear")
+        } else {
+          console.log("main didDisappear, other didAppear")
+        }
+        console.log(currentRoute)
+        console.log(event.data.route)
+    }
+    this._listeners = [
+      this.props.navigator.navigationContext.addListener('didfocus', callback)
+    ]
+
+  }
+
+  componentWillUnMount () {
+    console.log('main componentWillUnMount')
+    this._listeners && this._listeners.forEach(listener => listener.remove());
+  }
+
   render() {
+    console.log('main rendered!')
     let carouselList = this.state.carouselList.map((item, index) => {
       return (
         <TouchableHighlight>

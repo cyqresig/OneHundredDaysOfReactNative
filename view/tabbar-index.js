@@ -17,6 +17,7 @@ import {
 } from 'react-native'
 
 import Main from './main'
+import Main1 from './main1'
 import Advertisement from './advertisement'
 import Features from './features'
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
@@ -31,7 +32,7 @@ export default class TabBarIndex extends Component {
       isJumpToIndex: false,
       isFirstEntrance: false,
       isShowAd: false,
-      opacity: 0,
+      opacity: 1, //0,
       selectedTab: 'index',
     };
   }
@@ -44,26 +45,38 @@ export default class TabBarIndex extends Component {
       isFirstEntrance: firstEntrance,
     })
 
-  }
+    RCTDeviceEventEmitter.addListener('jumpToIndex.tabbar-index', () => {
+        console.log('emmit jumpToIndex.tabbar-index')
+        this.setState({
+          isJumpToIndex: true,
+        })
+    })
+
+
+    }
 
   componentDidMount () {
 
+    console.log('tabbar-index componentDidMount')
+
     //@todo 获取远程数据, 选一种可用的组件间通信方式进行传值, 并操作
 
-    RCTDeviceEventEmitter.addListener('jumpToIndex.tabbar-index', () => {
-      this.setState({
-        isJumpToIndex: true,
-      })
-    })
+    //RCTDeviceEventEmitter.addListener('jumpToIndex.tabbar-index', () => {
+    //  console.log('emmit jumpToIndex.tabbar-index')
+    //  this.setState({
+    //    isJumpToIndex: true,
+    //  })
+    //})
 
-    setTimeout( () => {
-      this.setState({
-        opacity: 1
-      })
-    }, 100)
+    //setTimeout( () => {
+    //  this.setState({
+    //    opacity: 1
+    //  })
+    //}, 100)
   }
 
   render() {
+    console.log('tabbar-index rendered')
     let index = this.state.isJumpToIndex ?
       <TabBarIOS style={{opacity: this.state.opacity,}} tintColor={'red'} barTintColor={'rgba(255, 255, 255, .8)'}>
         <Ionicons.TabBarItemIOS
@@ -83,6 +96,7 @@ export default class TabBarIndex extends Component {
                       //navigationBarHidden: true,
                       passProps: {
                         navigator: this.props.navigator,
+                        rootRoute: this.props.navigator.navigationContext.currentRoute
                       }
                     }}
           />
@@ -90,22 +104,31 @@ export default class TabBarIndex extends Component {
         <Ionicons.TabBarItemIOS
           iconName={"ios-home-outline"}
           iconSize={28}
-          title={'首页2'}
+          title={'分类'}
           selected={this.state.selectedTab === 'index2'}
           onPress={() => {
               this.setState({
                 selectedTab: 'index2'
               })
+              //强制控制切换到tab2时, 刷新tab2-component中的内容
+              RCTDeviceEventEmitter.emit('refresh.main1')
             }}>
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',}}>
-            <Text>index2</Text>
-          </View>
+          <NavigatorIOS style={styles.container}
+                        initialRoute={{
+                      component: Main1,
+                      title: '100 Days of RN',
+                      //navigationBarHidden: true,
+                      passProps: {
+                        navigator: this.props.navigator,
+                      }
+                    }}
+          />
 
         </Ionicons.TabBarItemIOS>
       </TabBarIOS> : null
 
     let appInfo = this.state.isFirstEntrance ?
-                  <Features/> : <Advertisement countDownSeconds={2}></Advertisement>
+                  <Features isFirstEntrance={this.state.isFirstEntrance} /> : <Advertisement isFirstEntrance={isFirstEntrance} countDownSeconds={2}></Advertisement>
     return (
       <View style={styles.container}>
         {index}

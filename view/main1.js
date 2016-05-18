@@ -23,6 +23,8 @@ import {
   StatusBar,
 } from 'react-native'
 
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
+
 import carousel_1 from './images/carousel-1.jpg'
 import carousel_2 from './images/carousel-2.jpg'
 import carousel_3 from './images/carousel-3.jpg'
@@ -31,21 +33,23 @@ import carousel_5 from './images/carousel-5.jpg'
 import carousel_6 from './images/carousel-6.jpg'
 import carousel_7 from './images/carousel-7.jpg'
 
-
 import Day1 from './day1'
+import Day2 from './day2'
+import Day3 from './day3'
+
 //import SplashScreen from '@remobile/react-native-splashscreen'
 
 
 export default class Main extends Component {
 
   // 构造
-  constructor(props) {
-    super(props);
-    // 初始状态
-    this.state = {
-      carouselList: [],
-    };
-  }
+    constructor(props) {
+      super(props);
+      // 初始状态
+      this.state = {
+        carouselList: [],
+      };
+    }
 
   componentWillMount() {
 
@@ -88,7 +92,7 @@ export default class Main extends Component {
         {
           navTitle: 'day2',
           title: 'Day 2',
-          //component: Day2,
+          component: Day2,
           isHideBar: true,
           isFontAwesome: true,
           icon: 'apple',
@@ -98,7 +102,7 @@ export default class Main extends Component {
         {
           navTitle: 'day3',
           title: 'Day 3',
-          //component: Day3,
+          component: Day3,
           isHideBar: false,
           isFontAwesome: true,
           icon: 'apple',
@@ -176,22 +180,38 @@ export default class Main extends Component {
   }
 
   componentDidMount() {
-    console.log('day3 componentDidMount')
-    let currentRoute = this.props.navigator.navigationContext.currentRoute
-    //let currentRoute = this.props.rootRoute
-    this.props.navigator.navigationContext.addListener('didfocus', (event) => {
+    console.log('main1 componentDidMount')
+    //在tabbar中的component要特殊处理, 判断rootRoute
+    //let currentRoute = this.props.navigator.navigationContext.currentRoute
+    let currentRoute = this.props.rootRoute
+    let callback = (event) => {
       //didfocus emit in componentDidMount
       if (currentRoute === event.data.route) {
-        console.log("day3 didAppear")
+        console.log("main1 didAppear")
       } else {
-        console.log("day3 didDisappear, other didAppear")
+        console.log("main1 didDisappear, other didAppear")
       }
       console.log(currentRoute)
       console.log(event.data.route)
+    }
+    this._listeners = [
+      this.props.navigator.navigationContext.addListener('didfocus', callback)
+    ]
+
+    RCTDeviceEventEmitter.addListener('refresh.main1', () => {
+      //重新请求数据, 并改变state, 使view重绘
+      console.log('refresh.main1')
+      this.setState({})
     })
   }
 
+  componentWillUnMount () {
+    console.log('main1 componentWillUnMount')
+    this._listeners && this._listeners.forEach(listener => listener.remove());
+  }
+
   render() {
+    console.log('main1 rendered!')
     let carouselList = this.state.carouselList.map((item, index) => {
       return (
         <TouchableHighlight>
@@ -207,28 +227,28 @@ export default class Main extends Component {
       return (
         <TouchableHighlight underlayColor="#eee" onPress={ this._jumpTo.bind(this, index)}>
           <View style={[styles.speedDialBox, this._getBoxBorderStyle(index, item), ]}>
-            {
-              item.icon ?
-                ( item.isFontAwesome ?
+              {
+                item.icon ?
+                  ( item.isFontAwesome ?
                   <FontAwesome size={item.size} name={item.icon} color={item.color}/> :
                   <Ionicons size={item.size} name={item.icon} color={item.color}/> ) : null
-            }
-            <Text style={styles.speedDialText}>{item.navTitle}</Text>
+              }
+              <Text style={styles.speedDialText}>{item.navTitle}</Text>
           </View>
         </TouchableHighlight>
       )
-      //<Image style={styles.boxIcon} source={item.icon}/>
+        //<Image style={styles.boxIcon} source={item.icon}/>
     })
 
     return (
-      <ScrollView style={[styles.stautBarCap, styles.container]}>
-        <Swiper height={carouselHeight} autoplay={true} autoplayTimeout={3.5} activeDot={activeDot}>
-          {carouselList}
-        </Swiper>
-        <View style={styles.speedDialWrapper}>
-          {dayList}
-        </View>
-      </ScrollView>
+        <ScrollView style={[styles.stautBarCap, styles.container]}>
+          <Swiper height={carouselHeight} autoplay={true} autoplayTimeout={3.5} activeDot={activeDot}>
+            {carouselList}
+          </Swiper>
+          <View style={styles.speedDialWrapper}>
+            {dayList}
+          </View>
+        </ScrollView>
     )
 
   }
@@ -239,20 +259,20 @@ export default class Main extends Component {
   }
 
   _jumpTo(index) {
-    if(this.state.days[index].component) {
-      this.props.navigator.push({
-        title: this.state.days[index].title,
-        component: this.state.days[index].component,
-        navigationBarHidden: this.state.days[index].isHideBar
-      })
-    }
-    else {
-      Alert.alert(
-        '提示信息',
-        this.state.days[index].title,
-        []
-      )
-    }
+      if(this.state.days[index].component) {
+        this.props.navigator.push({
+          title: this.state.days[index].title,
+          component: this.state.days[index].component,
+          navigationBarHidden: this.state.days[index].isHideBar
+        })
+      }
+      else {
+        Alert.alert(
+          '提示信息',
+          this.state.days[index].title,
+          []
+        )
+      }
   }
 
 }

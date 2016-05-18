@@ -68,7 +68,7 @@ export default class Features extends Component {
                         </Animated.View> : null
       return (
             <View style={{position: 'absolute', left: 0, top: 0,}}>
-              <Advertisement countDownSeconds={2}></Advertisement>
+              <Advertisement isFirstEntrance={this.props.isFirstEntrance} countDownSeconds={2}></Advertisement>
               {features}
             </View>
       )

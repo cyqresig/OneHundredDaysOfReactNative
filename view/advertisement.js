@@ -37,6 +37,7 @@ export default class Advertisement extends Component {
   static propTypes = {
     onCountDownEnd: React.PropTypes.func.isRequired,
     countDownSeconds: React.PropTypes.number.isRequired,
+    //isFirstEntrance: React.PropTypes.bool.isRequired,
   }
 
   // 构造
@@ -77,6 +78,11 @@ export default class Advertisement extends Component {
       })
 
       SplashScreen.hide()
+
+    console.log('this.props.isFirstEntrance = ' + this.props.isFirstEntrance)
+    if(!this.props.isFirstEntrance) {
+      RCTDeviceEventEmitter.emit('startCountDown.advertisement')
+    }
 
   }
 
