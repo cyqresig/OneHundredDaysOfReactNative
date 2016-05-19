@@ -221,7 +221,7 @@ export default class Main extends Component {
     })
 
     return (
-      <ScrollView style={[styles.stautBarCap, styles.container]}>
+      <ScrollView style={[styles.stautBarCap, styles.container, {marginTop: 44 + 20,}]}>
         <Swiper height={carouselHeight} autoplay={true} autoplayTimeout={3.5} activeDot={activeDot}>
           {carouselList}
         </Swiper>

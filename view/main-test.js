@@ -21,9 +21,9 @@ import {
   Dimensions,
   Alert,
   StatusBar,
+  Navigator,
+  TouchableOpacity,
 } from 'react-native'
-
-import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 
 import carousel_1 from './images/carousel-1.jpg'
 import carousel_2 from './images/carousel-2.jpg'
@@ -36,6 +36,9 @@ import carousel_7 from './images/carousel-7.jpg'
 import Day1 from './day1'
 import Day2 from './day2'
 import Day3 from './day3'
+
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
+
 
 //import SplashScreen from '@remobile/react-native-splashscreen'
 
@@ -56,11 +59,12 @@ export default class Main extends Component {
     this.setState({
       carouselList: [
         {
-          source: carousel_1
-        },
-        {
           source: carousel_2
         },
+        {
+          source: carousel_1
+        },
+
         {
           source: carousel_3
         },
@@ -87,7 +91,8 @@ export default class Main extends Component {
           isFontAwesome: true,
           icon: 'apple',
           size: 48,
-          color: '#E5E5E5'
+          color: '#E5E5E5',
+          navBar: null,
         },
         {
           navTitle: 'day2',
@@ -97,7 +102,8 @@ export default class Main extends Component {
           isFontAwesome: true,
           icon: 'apple',
           size: 48,
-          color: '#E5E5E5'
+          color: '#E5E5E5',
+          navBar: null,
         },
         {
           navTitle: 'day3',
@@ -107,7 +113,11 @@ export default class Main extends Component {
           isFontAwesome: true,
           icon: 'apple',
           size: 48,
-          color: '#E5E5E5'
+          color: '#E5E5E5',
+          navBar: (<Navigator.NavigationBar
+            routeMapper={NavigationBarRouteMapper}
+            style={styles.navBar}
+          />)
         },
         {
           navTitle: 'day4',
@@ -180,39 +190,37 @@ export default class Main extends Component {
   }
 
   componentDidMount() {
-    console.log('main1 componentDidMount')
+    console.log('main componentDidMount')
     //在tabbar中的component要特殊处理, 判断rootRoute
     //let currentRoute = this.props.navigator.navigationContext.currentRoute
     let currentRoute = this.props.rootRoute
     let callback = (event) => {
-      //didfocus emit in componentDidMount
-      if (currentRoute === event.data.route) {
-        console.log("main1 didAppear")
-      } else {
-        console.log("main1 didDisappear, other didAppear")
-      }
-      console.log(currentRoute)
-      console.log(event.data.route)
+        //didfocus emit in componentDidMount
+        if (currentRoute === event.data.route) {
+          console.log("main didAppear")
+        } else {
+          console.log("main didDisappear, other didAppear")
+        }
+        console.log(currentRoute)
+        console.log(event.data.route)
     }
     this._listeners = [
       this.props.navigator.navigationContext.addListener('didfocus', callback)
     ]
 
-    RCTDeviceEventEmitter.addListener('refresh.tabbar.main1', (customParams) => {
-      console.log('customParams = ' + customParams);
-      //重新请求数据, 并改变state, 使view重绘
-      console.log('refresh.main1')
-      this.setState({})
-    })
   }
 
   componentWillUnMount () {
-    console.log('main1 componentWillUnMount')
+    console.log('main componentWillUnMount')
     this._listeners && this._listeners.forEach(listener => listener.remove());
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !nextState.carouselList == this.state.carouselList
+  }
+
   render() {
-    console.log('main1 rendered!')
+    console.log('main rendered!')
     let carouselList = this.state.carouselList.map((item, index) => {
       return (
         <TouchableHighlight>
@@ -260,11 +268,14 @@ export default class Main extends Component {
   }
 
   _jumpTo(index) {
+    //let navBar = null
+      RCTDeviceEventEmitter.emit('setNavigationBar.index', this.state.days[index].navBar)
+
       if(this.state.days[index].component) {
         this.props.navigator.push({
-          title: this.state.days[index].title,
+          //title: this.state.days[index].title,
           component: this.state.days[index].component,
-          navigationBarHidden: this.state.days[index].isHideBar
+          //navigationBarHidden: this.state.days[index].isHideBar
         })
       }
       else {
@@ -342,6 +353,86 @@ const styles = StyleSheet.create({
   },
 
 
+  navBar: {
+    backgroundColor: 'white',
+  },
+  navBarText: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  navBarTitleText: {
+    color: '#373E4D',
+    fontWeight: '500',
+    marginVertical: 9,
+  },
+  navBarLeftButton: {
+    paddingLeft: 10,
+  },
+  navBarRightButton: {
+    paddingRight: 10,
+  },
+  navBarButtonText: {
+    color: '#5890FF',
+  },
+  scene: {
+    flex: 1,
+    paddingTop: 20,
+    backgroundColor: '#EAEAEA',
+  },
 
 })
+
+
+let NavigationBarRouteMapper = {
+
+  LeftButton: function(route, navigator, index, navState) {
+    if (index === 0) {
+      return null;
+    }
+
+    var previousRoute = navState.routeStack[index - 1];
+    return (
+      <TouchableOpacity
+        onPress={() => navigator.pop()}
+        style={styles.navBarLeftButton}>
+        <Text style={[styles.navBarText, styles.navBarButtonText]}>
+          {previousRoute.title}
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+
+  RightButton: function(route, navigator, index, navState) {
+    if (index === 0) {
+      return null;
+    }
+    return (
+      <TouchableOpacity
+        onPress={() => alert('touched!')}
+        style={styles.navBarRightButton}>
+        <Text style={[styles.navBarText, styles.navBarButtonText]}>
+          Next
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+
+  Title: function(route, navigator, index, navState) {
+    //if (index === 0) {
+    //  return null;
+    //}
+    return (
+      <Text style={[styles.navBarText, styles.navBarTitleText]}>
+        {route.title} [{index}]
+      </Text>
+    );
+    //return (
+    //  <TextInput
+    //    style={{alignSelf:'center', width: 100, height: 40, borderColor: 'gray', borderWidth: 1}}
+    //    defaultValue={route.title + '[' + index + ']'}
+    //  />
+    //)
+  },
+
+};
 

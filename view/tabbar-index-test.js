@@ -13,10 +13,12 @@ import {
   Text,
   StyleSheet,
   TabBarIOS,
-  NavigatorIOS,
+  Navigator,
+  TouchableOpacity,
+  TextInput,
 } from 'react-native'
 
-import Main from './main'
+import Main from './main-test'
 import Main1 from './main1'
 import Advertisement from './advertisement'
 import Features from './features'
@@ -46,14 +48,14 @@ export default class TabBarIndex extends Component {
     })
 
     RCTDeviceEventEmitter.addListener('jumpToIndex.tabbar-index', () => {
-        console.log('emmit jumpToIndex.tabbar-index')
-        this.setState({
-          isJumpToIndex: true,
-        })
+      console.log('emmit jumpToIndex.tabbar-index')
+      this.setState({
+        isJumpToIndex: true,
+      })
     })
 
 
-    }
+  }
 
   componentDidMount () {
 
@@ -89,7 +91,7 @@ export default class TabBarIndex extends Component {
                 selectedTab: 'index'
               })
             }}>
-          <NavigatorIOS style={styles.container}
+          <Navigator style={styles.container}
                         initialRoute={{
                       component: Main,
                       title: '100 Days of RN',
@@ -99,8 +101,22 @@ export default class TabBarIndex extends Component {
                         rootRoute: this.props.navigator.navigationContext.currentRoute
                       }
                     }}
-                        itemWrapperStyle={styles.navigatorBg}
-                        tintColor="#777"
+                     sceneStyle={styles.navigatorBg}
+                     renderScene={(route, navigator) => {
+                        let Component = route.component;
+                        return (
+                          <Component
+                            navigator={navigator}
+                            {...route.passProps}
+                          />
+                        )
+                     }}
+                     navigationBar={
+                      <Navigator.NavigationBar
+                        routeMapper={NavigationBarRouteMapper}
+                        style={styles.navBar}
+                      />
+                    }
           />
         </Ionicons.TabBarItemIOS>
         <Ionicons.TabBarItemIOS
@@ -115,24 +131,39 @@ export default class TabBarIndex extends Component {
               //强制控制切换到tab2时, 刷新tab2-component中的内容
               RCTDeviceEventEmitter.emit('refresh.tabbar.main1', 'custom params!')
             }}>
-          <NavigatorIOS style={styles.container}
-                        initialRoute={{
+          <Navigator style={styles.container}
+                     initialRoute={{
                       component: Main1,
                       title: '100 Days of RN',
                       //navigationBarHidden: true,
                       passProps: {
                         navigator: this.props.navigator,
+                        rootRoute: this.props.navigator.navigationContext.currentRoute
                       }
                     }}
-                        itemWrapperStyle={styles.navigatorBg}
-                        tintColor="#777"
-          />
+                     sceneStyle={styles.navigatorBg}
+                     renderScene={(route, navigator) => {
+                        let Component = route.component;
+                        return (
+                          <Component
+                            navigator={navigator}
+                            {...route.passProps}
+                          />
+                        )
+                     }}
+                     navigationBar={
+                      <Navigator.NavigationBar
+                        routeMapper={NavigationBarRouteMapper}
+                        style={styles.navBar}
+                      />
+                    }
+            />
 
         </Ionicons.TabBarItemIOS>
       </TabBarIOS> : null
 
     let appInfo = this.state.isFirstEntrance ?
-                  <Features isFirstEntrance={this.state.isFirstEntrance} /> : <Advertisement isFirstEntrance={isFirstEntrance} countDownSeconds={2}></Advertisement>
+      <Features isFirstEntrance={this.state.isFirstEntrance} /> : <Advertisement isFirstEntrance={this.state.isFirstEntrance} countDownSeconds={2}></Advertisement>
     return (
       <View style={styles.container}>
         {index}
@@ -155,5 +186,85 @@ const styles = StyleSheet.create({
   },
   navigatorBg: {
     backgroundColor: '#F4F4F4',
-  }
+  },
+
+  navBar: {
+    backgroundColor: 'white',
+  },
+  navBarText: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  navBarTitleText: {
+    color: '#373E4D',
+    fontWeight: '500',
+    marginVertical: 9,
+  },
+  navBarLeftButton: {
+    paddingLeft: 10,
+  },
+  navBarRightButton: {
+    paddingRight: 10,
+  },
+  navBarButtonText: {
+    color: '#5890FF',
+  },
+  scene: {
+    flex: 1,
+    paddingTop: 20,
+    backgroundColor: '#EAEAEA',
+  },
 })
+
+let NavigationBarRouteMapper = {
+
+  LeftButton: function(route, navigator, index, navState) {
+    if (index === 0) {
+      return null;
+    }
+
+    var previousRoute = navState.routeStack[index - 1];
+    return (
+      <TouchableOpacity
+        onPress={() => navigator.pop()}
+        style={styles.navBarLeftButton}>
+        <Text style={[styles.navBarText, styles.navBarButtonText]}>
+          {previousRoute.title}
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+
+  RightButton: function(route, navigator, index, navState) {
+    if (index === 0) {
+      return null;
+    }
+    return (
+      <TouchableOpacity
+        onPress={() => navigator.push(newRandomRoute())}
+        style={styles.navBarRightButton}>
+        <Text style={[styles.navBarText, styles.navBarButtonText]}>
+          Next
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+
+  Title: function(route, navigator, index, navState) {
+    //if (index === 0) {
+    //  return null;
+    //}
+    return (
+      <Text style={[styles.navBarText, styles.navBarTitleText]}>
+        {route.title} [{index}]
+      </Text>
+    );
+    //return (
+    //  <TextInput
+    //    style={{alignSelf:'center', width: 100, height: 40, borderColor: 'gray', borderWidth: 1}}
+    //    defaultValue={route.title + '[' + index + ']'}
+    //  />
+    //)
+  },
+
+};

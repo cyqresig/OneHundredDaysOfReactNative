@@ -132,7 +132,7 @@
 * 普通事件响应  支持从捕获,目标,冒泡三个阶段的事件的处理, 支持阻止捕获和冒泡  (注意:响应者的生命周期)
 * 手势事件响应  PanResponder支持特殊手势响应, 也同时支持普通事件响应
 
-##  Animatation
+## Animatation
 *  Animated 默认可以对Image, Text, View实现动画, 可以扩展动画组件, 通过直接的API声明来产生实际动画
 *  LayoutAnimation 实现效果相对比较简单, 通过state改变来产生实际动画
 *  注意Animation动画设置的View的位置,
@@ -142,6 +142,33 @@
 *  顶部StausBar预留20pt, NavigatorIOS.title预留44pt, Navigator.title高度暂未知(猜测也是44pt)
 *  同一个NavigatorIOS的title栏设置隐藏或显示后, 无法再变更成显示或隐藏(???不确定???)
 *  使最外层的navigator的component部分显示时, 一定得保证statusbar显示, 否则会导致navigator的顶部不会跟在statusbar之下
+*  NavigatorIOS(Navigator也一样), 使用TabBarIOSj时, 不得不在最外层包一个NavigatorIOS(Navigator), 判断nav的willfocus和didfocus时需要在最外层留意一下判断条件的区别
+*  NavigatorIOS在push时, 如果push前的主屏有一些动画效果, 比如(react-native-swipe的ScrollView的scrollTo动画效果), 有时会出现图片切换了一部分, 没有全部切换到底的问题...
+*  放弃Navigator, 改为尝试Navigator
+*  Navigator动画采用各种SwipeJump时, 会和同方向的react-native-swipe手势事件冲突, 导致第三方插件swipe效果失效
+*  Navigator不会自动计算并空出NavBar的高度给子View(在StatusBar显示时, 会自动空出对应的高度), 需要在renderScene中自定义空出, 如果Navigator加载时StatusBar隐藏了, 则不会计算StatusBar的高度
+*  Navigator目前试下来, 只能靠自定义事件修改主屏定义根Navigator的属性navigatorBar, 才能针对不同的route显示(隐藏)不同的自定义navBar
+
+## ScrollView
+*  @todo 尝试, 以及上拉刷新, 属性控制, 优化, 定制
+
+## ListView
+*  @todo 尝试, 以及上拉刷新, 下拉加载, 属性控制, 优化, 定制
+
+## SegmentedControl
+* ios -> SegmentedControlIOS
+* android -> react-native-radio-buttons
+
+## radioButton
+* react-native-radio-buttons
+
+## checkbox
+* Switch or react-native-item-checkbox
+
+## TabBar(bottom)
+* ios -> TabBarIOS
+* android -> react-native-scrollable-tab-view (scroll Tab effect, also can use as top tabs)
+* TabBarIOS内使用Navigator, 当切换TabBarItem时, 会自动重绘Navigator的内容, 需要自已定义shouldComponentUpdate, 在state里加一个更新state的时间戳, 来避免无谓的重绘操作
 
 ## fetch
 *  已支持timeout设置
