@@ -30,3 +30,8 @@ The index view of 100 days of react-native
 
 ![day3](http://www.vanadis.cn/screenshots/react-native/ios/day3.gif)
 
+## Day4
+react-native-tab-navigator Test (for replace TabBarIOS)
+react-native-linear-gradient Test (for styling button element)
+
+![day4](http://www.vanadis.cn/screenshots/react-native/ios/day4.gif)

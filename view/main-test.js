@@ -33,9 +33,10 @@ import carousel_5 from './images/carousel-5.jpg'
 import carousel_6 from './images/carousel-6.jpg'
 import carousel_7 from './images/carousel-7.jpg'
 
-import Day1 from './day1'
-import Day2 from './day2'
-import Day3 from './day3'
+import Day1 from './day1-test'
+import Day2 from './day2-test'
+import Day3 from './day3-test'
+import Day4 from './day4-test'
 
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 
@@ -122,7 +123,7 @@ export default class Main extends Component {
         {
           navTitle: 'day4',
           title: 'Day 4',
-          //component: Day1,
+          component: Day4,
           isFontAwesome: true,
           icon: 'apple',
           size: 48,
@@ -423,7 +424,7 @@ let NavigationBarRouteMapper = {
     //}
     return (
       <Text style={[styles.navBarText, styles.navBarTitleText]}>
-        {route.title} [{index}]
+        {route.title} [{index}]-1-2
       </Text>
     );
     //return (

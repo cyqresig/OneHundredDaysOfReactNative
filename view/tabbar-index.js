@@ -76,9 +76,9 @@ export default class TabBarIndex extends Component {
   }
 
   render() {
-    console.log('tabbar-index rendered')
+    console.log('tabbar-index rendered')  //translucent 好像没效果?
     let index = this.state.isJumpToIndex ?
-      <TabBarIOS style={{opacity: this.state.opacity,}} tintColor={'red'} barTintColor={'rgba(255, 255, 255, .8)'}>
+      <TabBarIOS style={{opacity: this.state.opacity,}} translucent={true} tintColor={'red'} barTintColor={'rgba(255, 255, 255, .8)'}>
         <Ionicons.TabBarItemIOS
           iconName={"ios-home-outline"}
           iconSize={28}

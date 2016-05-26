@@ -147,7 +147,8 @@
 *  放弃Navigator, 改为尝试Navigator
 *  Navigator动画采用各种SwipeJump时, 会和同方向的react-native-swipe手势事件冲突, 导致第三方插件swipe效果失效
 *  Navigator不会自动计算并空出NavBar的高度给子View(在StatusBar显示时, 会自动空出对应的高度), 需要在renderScene中自定义空出, 如果Navigator加载时StatusBar隐藏了, 则不会计算StatusBar的高度
-*  Navigator目前试下来, 只能靠自定义事件修改主屏定义根Navigator的属性navigatorBar, 才能针对不同的route显示(隐藏)不同的自定义navBar
+*  Navigator目前试下来, 只能靠自定义事件修改主屏定义根Navigator的属性navigatorBar(navigatorIOS可以依靠push时改写navBar的设置), 才能针对不同的route显示(隐藏)不同的自定义navBar
+*  NavigatorBar设置背景透明度有效,但透明的范围只有高度的一半,还未找到导致该问题的原因@todo
 
 ## ScrollView
 *  @todo 尝试, 以及上拉刷新, 属性控制, 优化, 定制
@@ -169,6 +170,11 @@
 * ios -> TabBarIOS
 * android -> react-native-scrollable-tab-view (scroll Tab effect, also can use as top tabs)
 * TabBarIOS内使用Navigator, 当切换TabBarItem时, 会自动重绘Navigator的内容, 需要自已定义shouldComponentUpdate, 在state里加一个更新state的时间戳, 来避免无谓的重绘操作
+* TabBarIOS切换TabBarItem时, react-native-swiper图片正在切换时, 也会导致没有切换完整的问题
+* 因为上面一条的问题, @todo 尝试一下用第三方的TabBar组件替换TabBarIOS, 或者只是android上使用 (react-native-tab-navigator || react-natve-tabs)
+* react-native-tab-navigator ios试验成功, 但和TabBarIOS相比存在tab切换的View高度不包含底部bar高度的问题, 将无法实现TabBarIOS中半透明显示tab切换的View部分的效果
+
+## upload/download + progress
 
 ## fetch
 *  已支持timeout设置
@@ -186,7 +192,15 @@
 * Navigator的context绑定willfocus和didfocus事件监听, 要注意的是, 当被其他View在加载时遮住时, 事件会触发2次,
   事件监听处理器中编写逻辑代码可能需要加入小间隔的函数节流方式, 获者有更好的方式来避免
 
+## 优化避免无谓的render
+* 生命周期事件shouldComponentUpdate
+* 通过定义ref='字符串'或ref= (component) => {this._component = component}, this._component.setNativeProps(changedProps)
 
+## View的基础及常用组件需要预先定义好
+* 详见mui
+
+## 调用源生能力的常用组件需要预先定义好
+* 详见h5+
 
 # Daily
 
@@ -204,3 +218,7 @@
 # day3
 * StatusBar
 * TabBarIOS
+
+# day4
+* react-native-tab-navigator android/ios替代TabBarIOS
+* react-native-linear-gradient element(for styling button)

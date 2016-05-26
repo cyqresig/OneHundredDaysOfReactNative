@@ -8,7 +8,7 @@ import React, {
   View,
   Text,
   TouchableOpacity,
-  //NavigatorIOS,
+  NavigatorIOS,
   Navigator,
   StatusBar,
 } from 'react-native'
@@ -16,7 +16,7 @@ import React, {
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'
 
 //import Feature from './view/features'
-//import TabBarIndex from './view/tabbar-index'
+import TabBarIndex from './view/tabbar-index'
 import TabBarIndexTest from './view/tabbar-index-test'
 
 class OneHundredDayOfRN extends Component {
